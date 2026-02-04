@@ -1,0 +1,15 @@
+Package: mssqlr
+Title: Simple Helpers for Connecting to SQL Server
+Version: 0.1.0
+Authors@R: 
+    person("Dave", "Rosenman", email = "dave.rosenman.data@gmail.com", role = c("aut", "cre"))
+Description: Lightweight helpers for connecting to Microsoft SQL Server using DBI, odbc, and pool. Provides simple wrappers for building connection arguments, establishing connections, and safely disconnecting.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    DBI,
+    odbc,
+    pool,
+    cli
