@@ -39,9 +39,9 @@ You can install the development version of **mssqlr** from GitHub:
 remotes::install_github("drosenman/mssqlr")
 ```
 
-## Example
+## Quick Start: Connect, Query, Disconnect
 
-Here’s a simple example showing how to connect and disconnect:
+Here’s a short example demonstrating how to connect, query, and disconnect:
 
 ```r
 library(mssqlr)
@@ -58,6 +58,41 @@ DBI::dbGetQuery(conn, "SELECT * FROM sys.tables")
 # Disconnect when finished
 db_disconnect(conn)
 ```
+
+## Example: Pooled Connections
+
+`db_connect()` supports both DBI and pooled connections. Set `pool = TRUE` to use a pool, or leave it as the default (`FALSE`) for a regular DBI connection.
+
+```
+library(mssqlr)
+library(DBI)
+
+# Create a pooled connection
+pool <- db_connect(
+  server   = "localhost",
+  database = "master",
+  pool     = TRUE
+)
+
+# Use the pool like any DBI connection
+DBI::dbGetQuery(pool, "SELECT name FROM sys.databases")
+
+# When finished, close the pool
+db_disconnect(pool)
+```
+
+## DBI vs Pool: When to Use Which?
+
+To use the DBI package for connections, keep `pool = FALSE` (the default setting). To use the pool package for connections, set `pool = TRUE`.
+
+| Feature / Use Case        | db_connect(pool = FALSE)        | db_connect(pool = TRUE)               |
+|---------------------------|----------------------------------|----------------------------------------|
+| Interactive scripts       | Simple and direct                | Not usually necessary                  |
+| Long-running processes    | May time out                     | Manages idle connections automatically |
+| Shiny apps                | Risk of too many connections     | Recommended best practice              |
+| Parallel workloads        | Each worker opens its own conn   | Pool reuses connections                |
+| Cleanup                   | db_disconnect()                  | db_disconnect() (works for pools too)  |
+
 
 ## Why use mssqlr?
 
