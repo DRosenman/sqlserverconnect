@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -13,92 +13,147 @@ knitr::opts_chunk$set(
 )
 ```
 
-# mssqlr
+# sqlserverconnect
 
 <!-- badges: start -->
 <!-- badges: end -->
+## Contents
 
-`mssqlr` provides a minimal, user-friendly interface for connecting to Microsoft SQL Server from R.  
-It wraps `DBI`, `odbc`, and `pool` with a small set of clean, consistent helpers:
+- [Installation](#installation)
+- [Quick start](#quick-start)
+  - [Windows Authentication (trusted connection)](#windows-authentication-trusted-connection)
+  - [Username + password authentication](#username--password-authentication)
+- [Pooled connections](#pooled-connections)
+- [DBI vs pool: when to use which?](#dbi-vs-pool-when-to-use-which)
+- [Shiny Use](#shiny-use)
+- [Why use sqlserverconnect?](#why-use-sqlserverconnect)
+- [Built on](#built-on)
 
-- `db_connect()` – establish a DBI (default) or pooled connection  
-- `db_disconnect()` – safely close DBI or pooled connections  
+`sqlserverconnect` provides a minimal, user-friendly interface for connecting to Microsoft SQL Server from R.
 
-Although most users will interact only with these two functions, the package also includes:
+It wraps **DBI** (with the **odbc** driver) and optionally **pool** with a small set of consistent helpers:
 
-- `db_connection_args()` – constructs a standardized list of connection arguments used internally by `db_connect()`
+- `db_connect()` – create a DBI connection (default) or a connection pool
+- `db_disconnect()` – safely close either a DBI connection or a pool
 
-The goal is to offer a lightweight, expressive API without the boilerplate typically required for SQL Server connections.
+The goal is to offer a lightweight API without the repeated setup/cleanup boilerplate that shows up in scripts and Shiny apps.
 
 ## Installation
 
-You can install the development version of **mssqlr** from GitHub:
+You can install the development version of **sqlserverconnect** from GitHub:
 
-```r
+```{r, eval = FALSE}
 # install.packages("remotes")
-remotes::install_github("drosenman/mssqlr")
+remotes::install_github("drosenman/sqlserverconnect")
 ```
 
-## Quick Start: Connect, Query, Disconnect
+## Quick start
 
-Here’s a short example demonstrating how to connect, query, and disconnect:
+### Windows Authentication (trusted connection)
 
-```r
-library(mssqlr)
+When using Windows Authentication, you typically don't need `uid`/`pwd`. Keep `trusted = TRUE` (the default).
 
-# Connect to a SQL Server database
+```{r, eval = FALSE}
+library(sqlserverconnect)
+library(DBI)
+
 conn <- db_connect(
   server   = "localhost",
   database = "master"
 )
 
-# ... use the connection ...
-DBI::dbGetQuery(conn, "SELECT * FROM sys.tables")
+DBI::dbGetQuery(conn, "SELECT TOP (5) name, create_date FROM sys.databases")
 
-# Disconnect when finished
 db_disconnect(conn)
 ```
 
-## Example: Pooled Connections
+### Username + password authentication
 
-`db_connect()` supports both DBI and pooled connections. Set `pool = TRUE` to use a pool, or leave it as the default (`FALSE`) for a regular DBI connection.
+For SQL authentication, set `trusted = FALSE` and provide `uid` and `pwd`.
 
-```
-library(mssqlr)
+**Tip:** avoid hardcoding passwords in scripts. Use environment variables, a keyring, or another secret manager.
+
+```{r, eval = FALSE}
+library(sqlserverconnect)
 library(DBI)
 
-# Create a pooled connection
+conn <- db_connect(
+  server   = "localhost",
+  database = "master",
+  uid      = Sys.getenv("SQLSERVER_UID"),
+  pwd      = Sys.getenv("SQLSERVER_PWD"),
+  trusted  = FALSE
+)
+
+DBI::dbGetQuery(conn, "SELECT TOP (5) name FROM sys.tables")
+
+db_disconnect(conn)
+```
+
+## Pooled connections
+
+`db_connect()` supports pooled connections via the **pool** package. Set `pool = TRUE` to create a pool, or leave it as the default (`FALSE`) for a regular DBI connection.
+
+```{r, eval = FALSE}
+library(sqlserverconnect)
+library(DBI)
+
 pool <- db_connect(
   server   = "localhost",
   database = "master",
   pool     = TRUE
 )
 
-# Use the pool like any DBI connection
-DBI::dbGetQuery(pool, "SELECT name FROM sys.databases")
+DBI::dbGetQuery(pool, "SELECT TOP (5) name FROM sys.databases")
 
-# When finished, close the pool
 db_disconnect(pool)
 ```
 
-## DBI vs Pool: When to Use Which?
+## DBI vs pool: when to use which?
 
-To use the DBI package for connections, keep `pool = FALSE` (the default setting). To use the pool package for connections, set `pool = TRUE`.
+- Use a plain DBI connection (`pool = FALSE`) for interactive scripts and short-lived jobs.
+- Use a pool (`pool = TRUE`) for Shiny apps or long-running processes where you want connections managed and reused.
 
-| Feature / Use Case        | db_connect(pool = FALSE)        | db_connect(pool = TRUE)               |
-|---------------------------|----------------------------------|----------------------------------------|
-| Interactive scripts       | Simple and direct                | Not usually necessary                  |
-| Long-running processes    | May time out                     | Manages idle connections automatically |
-| Shiny apps                | Risk of too many connections     | Recommended best practice              |
-| Parallel workloads        | Each worker opens its own conn   | Pool reuses connections                |
-| Cleanup                   | db_disconnect()                  | db_disconnect() (works for pools too)  |
+| Feature / Use case     | `db_connect(pool = FALSE)`      | `db_connect(pool = TRUE)`                 |
+|------------------------|----------------------------------|-------------------------------------------|
+| Interactive scripts    | Simple and direct                | Usually unnecessary                        |
+| Long-running jobs      | May time out if idle             | Better handling of idle / reused conns     |
+| Shiny apps             | Risk of too many connections     | Recommended best practice                  |
+| Parallel workloads     | Each worker opens its own conn   | Pool can reuse connections (per process)   |
+| Cleanup                | `db_disconnect()`                | `db_disconnect()`                          |
 
+## Shiny Use
 
-## Why use mssqlr?
+In Shiny, create the pool once (at startup), reuse it everywhere, and close it when the app stops.
 
-- Minimal surface area  
-- Clear, explicit arguments  
-- Works with both DBI and pooled connections  
-- No unnecessary abstractions  
+```{r, eval = FALSE}
+# global.R (or at the top of app.R)
+library(sqlserverconnect)
+
+db_pool <- db_connect(
+  server   = "localhost",
+  database = "master",
+  pool     = TRUE
+)
+
+onStop(function() {
+  db_disconnect(db_pool)
+})
+```
+
+## Why use sqlserverconnect?
+
+- Minimal surface area (two main functions)
+- Clear, explicit arguments
+- Works with either a DBI connection or a pool
+- Reduces boilerplate while staying close to DBI/odbc/pool
 
 If you frequently connect to SQL Server from R, this package keeps your workflow clean and consistent.
+
+## Built on
+
+`sqlserverconnect` is built on these packages:
+
+- **DBI** – provides the database interface and `dbConnect()` generic
+- **odbc** – provides the ODBC driver (`odbc::odbc()`) used by DBI to talk to SQL Server
+- **pool** – optional connection pooling for DBI connections (recommended for Shiny apps)

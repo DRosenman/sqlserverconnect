@@ -1,4 +1,4 @@
-Package: mssqlr
+Package: sqlserverconnect
 Title: Simple Helpers for Connecting to SQL Server
 Version: 0.1.0
 Authors@R: 
