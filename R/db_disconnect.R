@@ -23,8 +23,6 @@
 #'
 #' @export
 db_disconnect <- function(conn, quiet = FALSE) {
-
-  # NULL or missing connection
   if (is.null(conn)) {
     if (!quiet) cli::cli_alert_info("No connection to disconnect.")
     invisible(FALSE)
@@ -50,6 +48,6 @@ db_disconnect <- function(conn, quiet = FALSE) {
 
 
 
-  # Unknown object type
+
 
 }
