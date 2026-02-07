@@ -28,23 +28,28 @@ db_disconnect <- function(conn, quiet = FALSE) {
   if (is.null(conn)) {
     if (!quiet) cli::cli_alert_info("No connection to disconnect.")
     invisible(FALSE)
-  }
-
-  # Pool connection
-  if (inherits(conn, "pool")) {
+  } else if(inherits(conn, 'Pool') && DBI::dbIsValid(conn)) {
     pool::poolClose(conn)
     if (!quiet) cli::cli_alert_success("Pooled connection closed.")
     invisible(TRUE)
-  }
-
-  # DBI connection
-  if (inherits(conn, "DBIConnection")) {
+  } else if(inherits(conn, 'Pool') && !DBI::dbIsValid(conn)) {
+    if (!quiet) cli::cli_alert_info("Pooled connection was already closed.")
+    invisible(TRUE)
+  } else if(inherits(conn, "DBIConnection") && DBI::dbIsValid(conn)) {
     try(DBI::dbDisconnect(conn), silent = TRUE)
     if (!quiet) cli::cli_alert_success("Database connection closed.")
     invisible(TRUE)
+  } else if(inherits(conn, "DBIConnection") && !DBI::dbIsValid(conn)) {
+    if (!quiet) cli::cli_alert_info("Database connection was already closed.")
+    invisible(TRUE)
+  } else {
+    if(!quiet) cli::cli_alert_warning("Object is not a DBI connection or pool.")
+    invisible(FALSE)
   }
 
+
+
+
   # Unknown object type
-  if (!quiet) cli::cli_alert_warning("Object is not a DBI connection or pool.")
-  invisible(FALSE)
+
 }
