@@ -6,7 +6,7 @@
 #' @return TRUE (invisibly) if disconnected, FALSE otherwise
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Establish a connection
 #' conn <- db_connect(
 #'   server   = "localhost",

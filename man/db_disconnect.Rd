@@ -18,7 +18,7 @@ TRUE (invisibly) if disconnected, FALSE otherwise
 Disconnect from a SQL Server connection or pool
 }
 \examples{
-\dontrun{
+\donttest{
 # Establish a connection
 conn <- db_connect(
   server   = "localhost",

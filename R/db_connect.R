@@ -8,7 +8,7 @@
 #' @returns A DBI connection or a pool object
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Connect to a SQL Server database
 #' conn <- db_connect(
 #'   server   = "localhost",

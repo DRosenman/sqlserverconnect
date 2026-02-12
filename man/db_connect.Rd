@@ -45,7 +45,7 @@ A DBI connection or a pool object
 Connect to a SQL Server database
 }
 \examples{
-\dontrun{
+\donttest{
 # Connect to a SQL Server database
 conn <- db_connect(
   server   = "localhost",
