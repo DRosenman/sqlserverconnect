@@ -40,7 +40,17 @@ The goal is to offer a lightweight API without the repeated setup/cleanup boiler
 
 ## Installation
 
-You can install the development version of **sqlserverconnect** from GitHub:
+### CRAN (recommended) 
+
+Install the released version from CRAN:
+```{r, eval = FALSE}
+install.packages("sqlserverconnect")
+
+```
+
+### GitHub (development)
+
+Install the development version from GitHub:
 
 ```{r, eval = FALSE}
 # install.packages("remotes")

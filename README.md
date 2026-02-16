@@ -36,8 +36,17 @@ setup/cleanup boilerplate that shows up in scripts and Shiny apps.
 
 ## Installation
 
-You can install the development version of **sqlserverconnect** from
-GitHub:
+### CRAN (recommended)
+
+Install the released version from CRAN:
+
+``` r
+install.packages("sqlserverconnect")
+```
+
+### GitHub (development)
+
+Install the development version from GitHub:
 
 ``` r
 # install.packages("remotes")
