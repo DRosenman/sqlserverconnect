@@ -1,9 +1,10 @@
 # Package index
 
-## All functions
+## Connections
 
-- [`db_connect()`](db_connect.md) : Connect to a SQL Server database
-- [`db_connection_args()`](db_connection_args.md) : Build SQL Server
-  connection arguments
-- [`db_disconnect()`](db_disconnect.md) : Disconnect from a SQL Server
-  connection or pool
+- [`db_connect()`](https://drosenman.github.io/sqlserverconnect/reference/db_connect.md)
+  : Connect to a SQL Server database
+- [`db_disconnect()`](https://drosenman.github.io/sqlserverconnect/reference/db_disconnect.md)
+  : Disconnect from a SQL Server connection or pool
+- [`db_connection_args()`](https://drosenman.github.io/sqlserverconnect/reference/db_connection_args.md)
+  : Build SQL Server connection arguments

@@ -20,10 +20,10 @@ connecting to Microsoft SQL Server from R.
 It wraps **DBI** (with the **odbc** driver) and optionally **pool** with
 a small set of consistent helpers:
 
-- [`db_connect()`](reference/db_connect.md) – create a DBI connection
-  (default) or a connection pool
-- [`db_disconnect()`](reference/db_disconnect.md) – safely close either
-  a DBI connection or a pool
+- [`db_connect()`](https://drosenman.github.io/sqlserverconnect/reference/db_connect.md)
+  – create a DBI connection (default) or a connection pool
+- [`db_disconnect()`](https://drosenman.github.io/sqlserverconnect/reference/db_disconnect.md)
+  – safely close either a DBI connection or a pool
 
 The goal is to offer a lightweight API without the repeated
 setup/cleanup boilerplate that shows up in scripts and Shiny apps.
@@ -95,9 +95,10 @@ db_disconnect(conn)
 
 ## Pooled connections
 
-[`db_connect()`](reference/db_connect.md) supports pooled connections
-via the **pool** package. Set `pool = TRUE` to create a pool, or leave
-it as the default (`FALSE`) for a regular DBI connection.
+[`db_connect()`](https://drosenman.github.io/sqlserverconnect/reference/db_connect.md)
+supports pooled connections via the **pool** package. Set `pool = TRUE`
+to create a pool, or leave it as the default (`FALSE`) for a regular DBI
+connection.
 
 ``` r
 library(sqlserverconnect)
@@ -121,13 +122,13 @@ db_disconnect(pool)
 - Use a pool (`pool = TRUE`) for Shiny apps or long-running processes
   where you want connections managed and reused.
 
-| Feature / Use case  | `db_connect(pool = FALSE)`                      | `db_connect(pool = TRUE)`                       |
-|---------------------|-------------------------------------------------|-------------------------------------------------|
-| Interactive scripts | Simple and direct                               | Usually unnecessary                             |
-| Long-running jobs   | May time out if idle                            | Better handling of idle / reused conns          |
-| Shiny apps          | Risk of too many connections                    | Recommended best practice                       |
-| Parallel workloads  | Each worker opens its own conn                  | Pool can reuse connections (per process)        |
-| Cleanup             | [`db_disconnect()`](reference/db_disconnect.md) | [`db_disconnect()`](reference/db_disconnect.md) |
+| Feature / Use case  | `db_connect(pool = FALSE)`                                                                   | `db_connect(pool = TRUE)`                                                                    |
+|---------------------|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| Interactive scripts | Simple and direct                                                                            | Usually unnecessary                                                                          |
+| Long-running jobs   | May time out if idle                                                                         | Better handling of idle / reused conns                                                       |
+| Shiny apps          | Risk of too many connections                                                                 | Recommended best practice                                                                    |
+| Parallel workloads  | Each worker opens its own conn                                                               | Pool can reuse connections (per process)                                                     |
+| Cleanup             | [`db_disconnect()`](https://drosenman.github.io/sqlserverconnect/reference/db_disconnect.md) | [`db_disconnect()`](https://drosenman.github.io/sqlserverconnect/reference/db_disconnect.md) |
 
 ## Shiny Use
 

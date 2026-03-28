@@ -1,12 +1,15 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/reference/db_connect.html</loc></url>
-<url><loc>/reference/db_connection_args.html</loc></url>
-<url><loc>/reference/db_disconnect.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/404.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/LICENSE-text.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/LICENSE.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/articles/getting-started.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/articles/index.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/articles/shiny.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/authors.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/index.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/reference/db_connect.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/reference/db_connection_args.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/reference/db_disconnect.html</loc></url>
+<url><loc>https://drosenman.github.io/sqlserverconnect/reference/index.html</loc></url>
 </urlset>
 

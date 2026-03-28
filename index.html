@@ -32,6 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -105,7 +106,7 @@
 </h3>
 <p>When using Windows Authentication, you typically don’t need <code>uid</code>/<code>pwd</code>. Keep <code>trusted = TRUE</code> (the default).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/" class="external-link">sqlserverconnect</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/">sqlserverconnect</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/db_connect.html">db_connect</a></span><span class="op">(</span></span>
@@ -123,7 +124,7 @@
 <p>For SQL authentication, set <code>trusted = FALSE</code> and provide <code>uid</code> and <code>pwd</code>.</p>
 <p><strong>Tip:</strong> avoid hardcoding passwords in scripts. Use environment variables, a keyring, or another secret manager.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/" class="external-link">sqlserverconnect</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/">sqlserverconnect</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/db_connect.html">db_connect</a></span><span class="op">(</span></span>
@@ -144,7 +145,7 @@
 </h2>
 <p><code><a href="reference/db_connect.html">db_connect()</a></code> supports pooled connections via the <strong>pool</strong> package. Set <code>pool = TRUE</code> to create a pool, or leave it as the default (<code>FALSE</code>) for a regular DBI connection.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/" class="external-link">sqlserverconnect</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/">sqlserverconnect</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbi.r-dbi.org" class="external-link">DBI</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pool</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/db_connect.html">db_connect</a></span><span class="op">(</span></span>
@@ -210,7 +211,7 @@
 <p>In Shiny, create the pool once (at startup), reuse it everywhere, and close it when the app stops.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># global.R (or at the top of app.R)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/" class="external-link">sqlserverconnect</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/sqlserverconnect/">sqlserverconnect</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">db_pool</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/db_connect.html">db_connect</a></span><span class="op">(</span></span>
 <span>  server   <span class="op">=</span> <span class="st">"localhost"</span>,</span>

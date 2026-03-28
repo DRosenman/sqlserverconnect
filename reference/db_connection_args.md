@@ -50,7 +50,8 @@ db_connection_args(
 
 A named list of arguments suitable for a SQL Server connection string in
 DBI::dbConnect() or pool::dbPool(). Used internally by
-[`db_connect()`](db_connect.md) to construct the argument list.
+[`db_connect()`](https://drosenman.github.io/sqlserverconnect/reference/db_connect.md)
+to construct the argument list.
 
 ## Examples
 
