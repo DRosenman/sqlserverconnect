@@ -19,3 +19,7 @@ Imports:
     odbc,
     pool,
     cli
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

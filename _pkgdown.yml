@@ -1,4 +1,17 @@
-url: ~
+url: https://drosenman.github.io/sqlserverconnect/
+
 template:
   bootstrap: 5
 
+articles:
+  - title: "Articles"
+    contents:
+      - getting-started
+      - shiny
+
+reference:
+  - title: "Connections"
+    contents:
+      - db_connect
+      - db_disconnect
+      - db_connection_args
